@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom'
 import './app.css';
-import ReactImage from './react.png';
+import Home from 'Client/Containers/Home'
+import Root from 'Client/JS/Root'
+import Circle from 'Client/Assets/new-circle.svg'
 
-export default class App extends Component {
-  state = { username: null };
-
-  componentDidMount() {
-    fetch('/api/getUsername')
-      .then(res => res.json())
-      .then(user => this.setState({ username: user.username }));
-  }
-
-  render() {
-    const { username } = this.state;
-    return (
-      <div>
-        {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-        <img src={ReactImage} alt="react" />
-      </div>
-    );
-  }
+class App extends Component {
+    render() {
+        return (
+            <Root>
+                <BrowserRouter>
+                    <Route path='/' exact component={Home} />
+                </BrowserRouter>
+            </Root>
+        );
+    }
 }
+
+export default App;

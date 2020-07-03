@@ -3,3 +3,5 @@ node_modules
 dist
 *.log
 yarn.lock
+*.ttf
+src/client/Fonts/Apache License.txt

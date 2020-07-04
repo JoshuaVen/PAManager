@@ -3,8 +3,18 @@ import {
     ADD_ANIME,
     UNDO_FORM,
     CONNECT_TO_MAL,
-    DISCONNECT_FROM_MAL
+    DISCONNECT_FROM_MAL,
+    FETCH_DLED_ANIME
 } from './types'
+import axios from 'axios'
+
+export function fetchDownloadedAnime() {
+    const response = axios.get('http://localhost:8080/api/files/downloaded_list')
+    return {
+        type: FETCH_DLED_ANIME,
+        payload: response
+    }
+}
 
 export function addAnime(anime) {
     return {

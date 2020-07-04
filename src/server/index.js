@@ -1,10 +1,15 @@
 const express = require('express');
 const morgan = require('morgan');
-const app = express();
 const mongoose = require('mongoose');
-const router = require('./router')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
+const corsOptions = {
+    origin: 'http://localhost:3000'
+}
+
+const app = express();
+const router = require('./router')
 
 // DB setup
 mongoose.connect('mongodb://localhost/pamanager', {
@@ -13,6 +18,7 @@ mongoose.connect('mongodb://localhost/pamanager', {
 
 
 // App setup
+app.use(cors(corsOptions))
 app.use(cookieParser());
 app.use(express.static('dist'));
 app.use(morgan('combined'));

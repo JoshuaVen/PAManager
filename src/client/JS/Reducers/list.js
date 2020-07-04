@@ -1,18 +1,15 @@
-import { ADD_ANIME } from 'Client/JS/Actions/types'
+import { ADD_ANIME, FETCH_DLED_ANIME } from 'Client/JS/Actions/types'
 
-const initialState = [
-    '犬夜叉',
-    '境界のRinne',
-    'To LOVE Ru'
-]
-
-function list(state = initialState, action) {
+function list(state = [], action) {
     switch (action.type) {
         case ADD_ANIME:
             return [
                 ...state,
                 action.payload
             ]
+        case FETCH_DLED_ANIME:
+            const dledAnime = action.payload.data.docs.map(anime => anime.title)
+            return [...state, ...dledAnime]
         default:
             return state
     }

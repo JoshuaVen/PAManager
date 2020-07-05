@@ -39,7 +39,7 @@ exports.updateDB = (req, res, next) => {
             if (updatedResponse.length >= 1) {
                 let toInsert = []
                 updatedResponse.forEach(insertItem => {
-                    toInsert.push({ title: insertItem })
+                    toInsert.push({ title: insertItem, isAssociated: false })
                 });
                 DledAnime.insertMany(toInsert, (err) => {
                     if (err) {

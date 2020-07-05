@@ -1,15 +1,28 @@
-import { ADD_ANIME, FETCH_DLED_ANIME } from 'Client/JS/Actions/types'
+import { ADD_ANIME, FETCH_DLED_ANIME, ACTIVE_ITEM } from 'Client/JS/Actions/types'
 
-function list(state = [], action) {
+const initialState = {
+    currentActive: null,
+    dledAnime: []
+}
+
+function list(state = initialState, action) {
     switch (action.type) {
         case ADD_ANIME:
-            return [
+            return {
                 ...state,
-                action.payload
-            ]
+                dledAnime: [...state.dledAnime, action.payload]
+            }
         case FETCH_DLED_ANIME:
-            const dledAnime = action.payload.data.docs.map(anime => anime.title)
-            return [...state, ...dledAnime]
+            const dledAnime = action.payload.data.docs.map(anime => anime)
+            return {
+                ...state,
+                dledAnime: [...dledAnime]
+            }
+        case ACTIVE_ITEM:
+            return {
+                ...state,
+                currentActive: action.payload
+            }
         default:
             return state
     }

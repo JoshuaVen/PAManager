@@ -3,20 +3,27 @@ import { connect } from 'react-redux'
 
 import { fetchDownloadedAnime } from 'Client/JS/Actions/index'
 
+import ExpandableItem from 'Client/Components/expandable-item/ExpandableItem'
+import './List.css'
+
 class List extends React.Component {
 
     render() {
         return (
-            <ul>
-                {this.props.dledAnime.map((animeTitle, index) => <li key={index}>{animeTitle}</li>)}
-            </ul>
+            <div className='downloaded-list'>
+                {this.props.dledAnime.map(
+                    (anime, index) =>
+                        <ExpandableItem animeTitle={anime.title} key={index} index={index} />
+                )}
+            </div>
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        dledAnime: state.list
+        dledAnime: state.list.dledAnime,
+        searchResult: state.searchList
     }
 }
 

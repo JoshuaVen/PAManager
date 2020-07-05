@@ -64,7 +64,6 @@ class PopupForm extends React.Component {
                             value="submit"
                         />
                     </form>
-                    <button onClick={() => this.props.undoForm()}>close me</button>
                 </div>
             </div>
         );

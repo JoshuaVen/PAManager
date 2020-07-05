@@ -4,9 +4,41 @@ import {
     UNDO_FORM,
     CONNECT_TO_MAL,
     DISCONNECT_FROM_MAL,
-    FETCH_DLED_ANIME
+    FETCH_DLED_ANIME,
+    SEARCH_ANIME,
+    SEARCH_RESULT_RECEIVED,
+    SEARCH_RESULT_ERRORED,
+    ACTIVE_ITEM,
 } from './types'
 import axios from 'axios'
+
+export function activateItem(item) {
+    return {
+        type: ACTIVE_ITEM,
+        payload: item
+    }
+}
+
+export function searchResultErrored(error) {
+    return {
+        type: SEARCH_RESULT_ERRORED,
+        paylad: error
+    }
+}
+
+export function searchResultReceived(result) {
+    return {
+        type: SEARCH_RESULT_RECEIVED,
+        payload: result
+    }
+}
+
+export function searchAnime(title) {
+    return {
+        type: SEARCH_ANIME,
+        payload: title
+    }
+}
 
 export function fetchDownloadedAnime() {
     const response = axios.get('http://localhost:8080/api/files/downloaded_list')

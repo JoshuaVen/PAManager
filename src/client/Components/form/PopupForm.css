@@ -11,13 +11,17 @@
 }
 
 .popup-inner {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
     position: absolute;
     left: 10%;
     right: 10%;
     top: 15%;
     bottom: 15%;
     margin: auto;
-    border-radius: 20px;
+    border-radius: 10px;
     background: rgb(134, 60, 60);
 }
 

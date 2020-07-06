@@ -4,7 +4,8 @@ const initialState = {
     errorOccured: false,
     errorMessage: null,
     loading: false,
-    searchRes: []
+    searchRes: [],
+    searchTitle: ''
 }
 
 function searchList(state = initialState, action) {
@@ -12,6 +13,7 @@ function searchList(state = initialState, action) {
         case SEARCH_ANIME:
             return {
                 ...state,
+                searchTitle: action.payload,
                 loading: true
             }
         case SEARCH_RESULT_RECEIVED:

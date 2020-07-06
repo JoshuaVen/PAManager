@@ -4,6 +4,8 @@ import axios from 'axios'
 import { SEARCH_RESULT_RECEIVED, SEARCH_ANIME } from '../Actions/types'
 import { searchResultReceived, searchResultErrored } from '../Actions/index'
 
+import linkingWatcher from './linking'
+
 function querySearch(searchURL) {
     return axios(searchURL)
         .then(response => ({ response }))
@@ -26,7 +28,6 @@ function* searchWatcher() {
     yield takeLatest(SEARCH_ANIME, fetchSearchResult)
 }
 
-
 export default function* rootSaga() {
-    yield all([searchWatcher()])
+    yield all([searchWatcher(), linkingWatcher()])
 }

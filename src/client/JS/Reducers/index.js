@@ -3,10 +3,12 @@ import header from './header'
 import list from './list'
 import form from './form'
 import searchList from './searchlist'
+import link from './link'
 
 export default combineReducers({
     header: header,
     list: list,
     form: form,
-    searchList: searchList
+    searchList: searchList,
+    link: link
 })

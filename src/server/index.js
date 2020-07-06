@@ -20,6 +20,7 @@ mongoose.connect('mongodb://localhost/pamanager', {
 // App setup
 app.use(cors(corsOptions))
 app.use(cookieParser());
+app.use('/assets', express.static('../Assets'))
 app.use(express.static('dist'));
 app.use(morgan('combined'));
 app.use('/api', router)

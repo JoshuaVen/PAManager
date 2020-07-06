@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { fetchDownloadedAnime } from 'Client/JS/Actions/index'
 
+import Item from 'Client/Components/item/Item'
 import ExpandableItem from 'Client/Components/expandable-item/ExpandableItem'
 import './List.css'
 
@@ -13,7 +14,8 @@ class List extends React.Component {
             <div className='downloaded-list'>
                 {this.props.dledAnime.map(
                     (anime, index) =>
-                        <ExpandableItem animeTitle={anime.title} key={index} index={index} />
+                        anime.isAssociated ? <Item animeTitle={anime.title} key={index} /> :
+                            <ExpandableItem animeTitle={anime.title} key={index} index={index} />
                 )}
             </div>
         )

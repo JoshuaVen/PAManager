@@ -11,9 +11,6 @@ const animeSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    offline_loc: {
-        type: String,
-    },
     jap_title: {
         type: String,
     },
@@ -28,7 +25,7 @@ const animeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    premierYear: {
+    premier_year: {
         type: Number,
         required: true
     },
@@ -40,12 +37,11 @@ const animeSchema = new mongoose.Schema({
         type: Array,
         required: true
     },
+    related: {
+        type: Array,
+    },
     genre: {
         type: Array,
-        required: true
-    },
-    rating: {
-        type: String,
         required: true
     },
     opening: {

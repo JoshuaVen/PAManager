@@ -7,6 +7,9 @@ const dledAnimeSchema = new mongoose.Schema({
     },
     isAssociated: {
         type: Boolean
+    },
+    associated_mal_id: {
+        type: Number
     }
 }, { autoIndex: false })
 

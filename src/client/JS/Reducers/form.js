@@ -1,24 +1,18 @@
+import produce from 'immer'
 import { POP_FORM, UNDO_FORM } from 'Client/JS/Actions/types'
 
 const initial_state = {
     isPopped: false
 }
 
-function form(state = initial_state, action) {
+const form = produce((draft, action) => {
     switch (action.type) {
         case POP_FORM:
-            return {
-                ...state,
-                isPopped: true
-            }
+            draft.isPopped = true
+            break
         case UNDO_FORM:
-            return {
-                ...state,
-                isPopped: false
-            }
-        default:
-            return state;
+            draft.isPopped = false
     }
-}
+}, initial_state)
 
 export default form

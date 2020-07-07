@@ -1,3 +1,4 @@
+import produce from 'immer'
 import { CONNECT_TO_MAL, DISCONNECT_FROM_MAL } from 'Client/JS/Actions/types'
 
 const initialState = {
@@ -12,22 +13,15 @@ const initialState = {
     isConnectedToMAL: false
 }
 
-function header(state = initialState, action) {
+const header = produce((draft, action) => {
     switch (action.type) {
         case CONNECT_TO_MAL:
-            return {
-                ...state,
-                isConnectedToMAL: true
-            }
+            draft.isConnectedToMAL = true
+            break;
         case DISCONNECT_FROM_MAL:
-            return {
-                ...state,
-                isConnectedToMAL: false
-            }
-        default:
-            return state
+            draft.isConnectedToMAL = false
     }
-}
+}, initialState)
 
 
 export default header

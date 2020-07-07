@@ -6,9 +6,9 @@ import searchList from './searchlist'
 import link from './link'
 
 export default combineReducers({
-    header: header,
-    list: list,
-    form: form,
-    searchList: searchList,
-    link: link
+    header,
+    list,
+    form,
+    searchList,
+    link
 })

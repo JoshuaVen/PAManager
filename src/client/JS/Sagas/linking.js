@@ -4,11 +4,15 @@ import axios from 'axios'
 import * as linkingProcess from '../Actions/linking'
 
 function linkAttempt(item) {
+    const dataForPosting = {
+        ...item.toBeLinked,
+        searchTitle: item.referenceItem
+    }
     const linkingURL = 'http://localhost:8080/api/files/link'
     const config = {
         method: 'POST',
         url: linkingURL,
-        data: item
+        data: dataForPosting
     }
     return axios(config)
         .then(response => ({ response }))

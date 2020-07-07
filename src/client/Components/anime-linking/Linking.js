@@ -15,8 +15,7 @@ class AnimeLinking extends React.Component {
     }
 
     handleClick(toBeInserted) {
-        toBeInserted.searchTitle = this.props.searchTitle
-        this.props.initiateLinking(toBeInserted)
+        this.props.initiateLinking(toBeInserted, this.props.searchTitle)
     }
 
     escFunction(event) {
@@ -70,7 +69,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        initiateLinking: linkingItem => dispatch(initiateLinking(linkingItem)),
+        initiateLinking: (linkingItem, referenceItem) => dispatch(initiateLinking(linkingItem, referenceItem)),
         toggleLinking: toggle => dispatch(toggleLinking(toggle))
 
     }

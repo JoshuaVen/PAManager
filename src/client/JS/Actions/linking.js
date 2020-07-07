@@ -10,10 +10,13 @@ export function toggleLinking(toggle) {
     }
 }
 
-export function initiateLinking(toBeLinked) {
+export function initiateLinking(toBeLinked, referenceItem) {
     return {
         type: INITIATE_LINKING,
-        payload: toBeLinked
+        payload: {
+            toBeLinked,
+            referenceItem
+        }
     }
 }
 

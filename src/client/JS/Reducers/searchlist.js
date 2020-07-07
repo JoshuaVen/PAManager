@@ -1,4 +1,5 @@
 import { SEARCH_ANIME, SEARCH_RESULT_RECEIVED, SEARCH_RESULT_ERRORED } from '../Actions/types'
+import produce from 'immer'
 
 const initialState = {
     errorOccured: false,
@@ -8,29 +9,24 @@ const initialState = {
     searchTitle: ''
 }
 
-function searchList(state = initialState, action) {
+const searchList = produce((draft, action) => {
     switch (action.type) {
         case SEARCH_ANIME:
-            return {
-                ...state,
-                searchTitle: action.payload,
-                loading: true
-            }
+            draft.searchTitle = action.payload
+            draft.loading = true
+            break
+
         case SEARCH_RESULT_RECEIVED:
-            return {
-                ...state,
-                loading: false,
-                searchRes: action.payload.data
-            }
+            draft.loading = false
+            draft.searchRes = action.payload.data
+            break
+
         case SEARCH_RESULT_ERRORED:
-            return {
-                ...state,
-                errorOccured: true,
-                errorMessage: action.payload
-            }
-        default:
-            return state
+            draft.errorOccured = true
+            draft.errorMessage = action.payload
+            break
+
     }
-}
+}, initialState)
 
 export default searchList

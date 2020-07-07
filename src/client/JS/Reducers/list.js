@@ -1,31 +1,27 @@
 import { ADD_ANIME, FETCH_DLED_ANIME, ACTIVE_ITEM } from 'Client/JS/Actions/types'
+import produce from 'immer'
 
 const initialState = {
     currentActive: null,
     dledAnime: []
 }
 
-function list(state = initialState, action) {
+const list = produce((draft, action) => {
     switch (action.type) {
         case ADD_ANIME:
-            return {
-                ...state,
-                dledAnime: [...state.dledAnime, action.payload]
-            }
+            draft.dledAnime = [...state.dledAnime, action.payload]
+            break
+
         case FETCH_DLED_ANIME:
             const dledAnime = action.payload.data.docs.map(anime => anime)
-            return {
-                ...state,
-                dledAnime: [...dledAnime]
-            }
+            draft.dledAnime = dledAnime
+            break
+
         case ACTIVE_ITEM:
-            return {
-                ...state,
-                currentActive: action.payload
-            }
-        default:
-            return state
+            draft.currentActive = action.payload
+            break
+
     }
-}
+}, initialState)
 
 export default list

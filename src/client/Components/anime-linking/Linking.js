@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import './Linking.css'
 import '../form/PopupForm.css'
 import Loading from 'Client/Assets/loading.svg'
-import { toggleLinking, initiateLinking } from 'Client/JS/Actions/linking';
+import { toggleLinking, initiateLinking, resetLinking } from 'Client/JS/Actions/linking';
+import { fetchDownloadedAnime } from 'Client/JS/Actions/index'
 
 class AnimeLinking extends React.Component {
     constructor(props) {
@@ -29,8 +30,8 @@ class AnimeLinking extends React.Component {
     }
 
     componentWillUnmount() {
-        alert('List updated! Refreshing page...')
-        location.reload()
+        this.props.resetLinking()
+        this.props.fetchDledAnime()
         document.removeEventListener("keydown", this.escFunction);
     }
 
@@ -49,7 +50,7 @@ class AnimeLinking extends React.Component {
                         <p>{this.props.searchTitle}</p>
                     </div>
                     <div className='content'>
-                        {this.props.isLoading ? <Loading /> : searchResults}
+                        {this.props.linkMessage ? this.props.linkMessage.statusText : this.props.isLoading ? <Loading /> : searchResults}
                     </div>
                 </div>
             </div>
@@ -69,9 +70,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        fetchDledAnime: () => dispatch(fetchDownloadedAnime()),
         initiateLinking: (linkingItem, referenceItem) => dispatch(initiateLinking(linkingItem, referenceItem)),
-        toggleLinking: toggle => dispatch(toggleLinking(toggle))
-
+        toggleLinking: toggle => dispatch(toggleLinking(toggle)),
+        resetLinking: () => dispatch(resetLinking())
     }
 }
 

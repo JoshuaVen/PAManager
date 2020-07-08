@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import SideNav from 'Client/Components/side-nav/SideNav'
 import Header from 'Client/Components/header/Header'
-import List from 'Client/Components/list/List'
+import List from 'Client/Containers/List/List'
 import PopupForm from 'Client/Components/form/PopupForm'
 import AnimeLinking from 'Client/Components/anime-linking/Linking'
 

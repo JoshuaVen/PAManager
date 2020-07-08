@@ -11,7 +11,7 @@ class List extends React.Component {
 
     render() {
         return (
-            <div className='downloaded-list'>
+            <div className='list'>
                 {this.props.dledAnime.map(
                     (anime, index) =>
                         anime.isAssociated ? <Item animeTitle={anime.title} key={index} /> :

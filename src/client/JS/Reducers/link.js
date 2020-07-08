@@ -1,11 +1,11 @@
-import { TOGGLE_LINKING, INITIATE_LINKING, LINKING_SUCCESS, LINKING_FAIL } from 'Client/JS/Actions/linking'
+import { TOGGLE_LINKING, INITIATE_LINKING, LINKING_SUCCESS, LINKING_FAIL, RESET_LINKING } from 'Client/JS/Actions/linking'
 import produce from 'immer'
 
 const initialState = {
     isLinking: false,
     referenceItem: '',
     toBeLinked: {},
-    message: '',
+    message: null,
     linkingStarted: false,
     linkingSuccess: false,
 }
@@ -21,17 +21,24 @@ const link = produce((draft, action) => {
             draft.linkingStarted = true
             break
         case LINKING_SUCCESS:
-            draft.isLinking = false
             draft.linkingStarted = false
             draft.linkingSuccess = true
             draft.message = action.payload
             break
         case LINKING_FAIL:
-            isLinking = false
-            linkingStarted = false
-            linkingSuccess = false
-            message = action.payload
+            draft.isLinking = false
+            draft.linkingStarted = false
+            draft.linkingSuccess = false
+            draft.message = action.payload
             break;
+        case RESET_LINKING:
+            draft.isLinking = false
+            draft.referenceItem = ''
+            draft.toBeLinked = {}
+            draft.message = null
+            draft.linkingStarted = false
+            draft.linkingSuccess = false
+            break
     }
 }, initialState)
 

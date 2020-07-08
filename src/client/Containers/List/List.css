@@ -1,0 +1,6 @@
+.list {
+    background-color: rgb(48, 48, 48);
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}

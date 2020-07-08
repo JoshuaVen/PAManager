@@ -2,6 +2,14 @@ export const TOGGLE_LINKING = 'toggle_linking'
 export const INITIATE_LINKING = 'initiate_linking'
 export const LINKING_SUCCESS = 'linking_successful'
 export const LINKING_FAIL = 'linking failed'
+export const RESET_LINKING = 'reset_linking_state'
+
+export function resetLinking(reset) {
+    return {
+        type: RESET_LINKING,
+        payload: reset
+    }
+}
 
 export function toggleLinking(toggle) {
     return {

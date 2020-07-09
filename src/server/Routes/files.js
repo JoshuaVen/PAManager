@@ -9,6 +9,8 @@ router.use(bodyParser.raw());
 const animeList = require('../Controllers/animeList')
 const jikan = require('../Controllers/malList')
 
+router.post('/unlink', jikan.unlinkFromMal)
+
 router.post('/link', jikan.linkToMal)
 
 router.get('/search', jikan.searchDownloaded)

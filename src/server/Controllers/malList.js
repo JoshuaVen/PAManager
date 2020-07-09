@@ -5,7 +5,7 @@ const url = require('url')
 const mal = new Jikan();
 
 const Anime = require('../Models/anime')
-const DledAnime = require('../Models/dledAnime')
+const DledAnime = require('../Models/dledAnime');
 
 const saveImage = (url, loc) => {
     let file = fs.createWriteStream(loc);
@@ -27,6 +27,32 @@ exports.searchDownloaded = (req, res, next) => {
     mal.search('anime', query, { page: 1, limit: 10 })
         .then(response => res.send(response.results))
         .catch(err => res.status(400).json({ error: err }))
+}
+
+exports.unlinkFromMal = (req, res, next) => {
+    const animeToUnlink = req.body.animeTitle
+    DledAnime.findOneAndUpdate(
+        { 'title': animeToUnlink },
+        { 'isAssociated': false, '$unset': { 'associated_mal_id': 1 } }
+    )
+        .then(doc => {
+            if (!doc) {
+                res.status(200).json({ message: 'Nothing found using title: ' + animeToUnlink })
+            }
+            const associated_mal_id = doc.associated_mal_id
+            Anime.findOneAndRemove({ 'mal_id': associated_mal_id }, (errDeletion, doc) => {
+                if (errDeletion) {
+                    res.send(errDeletion)
+                }
+                if (!doc) {
+                    res.status(200).json({ title: animeToUnlink, message: 'Title is currently unlinked' })
+                } else {
+                    res.send(doc)
+                }
+            })
+        }).catch(errFinding => {
+            res.status(500).json({ errFinding })
+        })
 }
 
 exports.linkToMal = (req, res, next) => {

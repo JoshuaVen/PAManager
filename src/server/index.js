@@ -13,7 +13,7 @@ const router = require('./router')
 
 // DB setup
 mongoose.connect('mongodb://localhost/pamanager', {
-    useNewUrlParser: true, useUnifiedTopology: true
+    useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
 })
 
 

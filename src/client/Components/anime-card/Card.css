@@ -12,19 +12,24 @@
 }
 
 .anime-card {
-    transition-duration: 0.4s;
+    transition-duration: 0.2s;
     border-radius: 5px;
-    box-shadow: 0px 5px 5px grey;
+    box-shadow: 0px 2px 10px rgb(0, 0, 0);
     margin: 10px;
     padding: 5px;
     min-width: 200px;
     width: 160px;
-    height: 250px;
+    height: 280px;
     /* display: flex; */
     flex-direction: column;
     text-align: center;
     justify-content: center;
-    background-color: #1e3974;
+    background-color: #0e0c8d;
+}
+
+.anime-card:hover {
+    box-shadow: 0px 2px 5px rgb(0, 0, 0);
+
 }
 
 .confirmation {

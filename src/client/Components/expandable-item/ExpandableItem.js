@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { searchAnime, activateItem } from 'Client/JS/Actions/index'
 import { toggleLinking } from 'Client/JS/Actions/linking'
 
+import { FaLink } from 'react-icons/fa'
 import './ExpandableItem.css'
 
 
@@ -17,13 +18,16 @@ class ExpandableItem extends React.Component {
 
     render() {
         return (
-            <div
-                className='expandable-item'
+            <div className='expandable-item'
                 onClick={() => this.handleClick()}
             >
-                <p>{this.props.animeTitle}</p>
+                <div className='expandable-item-icon'>
+                    <FaLink className='link' />
+                </div>
+                <div className='expandable-item-title'>
+                    <p>{this.props.animeTitle}</p>
+                </div>
             </div>
-
         )
     }
 }

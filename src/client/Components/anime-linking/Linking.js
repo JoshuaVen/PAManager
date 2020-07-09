@@ -1,9 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { FaCheckCircle } from 'react-icons/fa'
+
 import './Linking.css'
 import '../form/PopupForm.css'
 import Loading from 'Client/Assets/loading.svg'
+import AnimeCard from '../anime-card/Card'
 import { toggleLinking, initiateLinking, resetLinking } from 'Client/JS/Actions/linking';
 import { fetchDownloadedAnime } from 'Client/JS/Actions/index'
 
@@ -12,10 +15,11 @@ class AnimeLinking extends React.Component {
         super(props);
 
         this.escFunction = this.escFunction.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleLinking = this.handleLinking.bind(this);
+        this.displayAlert = this.displayAlert.bind(this);
     }
 
-    handleClick(toBeInserted) {
+    handleLinking(toBeInserted) {
         this.props.initiateLinking(toBeInserted, this.props.searchTitle)
     }
 
@@ -35,23 +39,34 @@ class AnimeLinking extends React.Component {
         document.removeEventListener("keydown", this.escFunction);
     }
 
+    displayAlert() {
+        if (this.props.linkMessage.status === 200) {
+            return (
+                <div className='alert-box'>
+                    <FaCheckCircle className='alert-icon' />
+                    <h2 className='alert-title'>Linking Successful</h2>
+                    <p>The selected anime is linked with the downloaded anime</p>
+                </div>
+            )
+        }
+    }
+
     render() {
         const searchResults = this.props.searchRes.map(
             (res, index) =>
-                <div className="animeCard" key={index} onClick={() => this.handleClick(res)}>
-                    <img className="animeImage" src={res.image_url} alt="Anime Poster" />
-                    <p className="animeTitle">{res.title}</p>
-                </div>
+                <AnimeCard key={index} anime={res} initiateLinking={this.handleLinking} />
         )
         return (
             <div className='popup'>
                 <div className='popup-inner'>
                     <div className='downloaded-anime'>
-                        <p>{this.props.searchTitle}</p>
+                        <h1>{this.props.searchTitle}</h1>
                     </div>
-                    <div className='content'>
-                        {this.props.linkMessage ? this.props.linkMessage.statusText : this.props.isLoading ? <Loading /> : searchResults}
-                    </div>
+                    {this.props.linkMessage ? this.displayAlert() : (
+                        <div className='content'>
+                            {this.props.isLoading ? <Loading /> : searchResults}
+                        </div>
+                    )}
                 </div>
             </div>
         )

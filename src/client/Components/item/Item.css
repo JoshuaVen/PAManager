@@ -1,48 +1,119 @@
-.item {
+.item-default {
+    min-height: 51px;
+    width: auto;
+    margin: 5px 10%;
     display: flex;
     flex-direction: row;
-    margin: 5px 10%;
     border-style: solid;
     border-color: rgb(0, 255, 34);
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
 }
 
-.item-icon {
+.item-default.advance:hover {
+    box-shadow: 0px 5px 5px rgb(22, 37, 37);
+    border-color: rgb(0, 0, 0);
+    background-color: rgb(255, 77, 77);
+}
+
+.item-default.advance {
+    background-color: rgb(255, 77, 77);
+    border-color: rgb(255, 77, 77);
+}
+
+.item-advance {
+    border-radius: 10px;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    width: 40px;
+    transition: all 0.2s ease-in-out;
+    width: 100%;
+    background-color: rgb(255, 77, 77);
+}
+
+.item-advance-icon {
+    border-radius: 20px;
+    margin: 1px 20px;
+    display: flex;
+    width: 40px;
+    background-color: rgb(255, 77, 77);
+    transition: all 0.2s ease-in-out;
+}
+
+.item-advance-icon:hover {
+    background-color: rgb(0, 0, 0);
+}
+
+.item-advance-icon:hover .advance-icon {
+    color: rgb(255, 77, 77);
+}
+
+.item-advance-icon .advance-icon {
+    transition: all 0.2s ease-in-out;
+    margin: 0 10px;
+    align-self: center;
+    width: 20px;
+    height: 20px;
+    color: rgb(0, 0, 0);
+}
+
+.item-advance.hide {
+    width: 0;
+    opacity: 0;
+}
+
+.item-default-icon.hide {
+    width: 0;
+    opacity: 0;
+}
+
+.item-default-title.hide {
+    width: 0;
+    opacity: 0;
+}
+
+.item-default-title.hide p {
+    display: none;
+}
+
+.item-default-icon {
     display: flex;
     width: 40px;
     background-color: rgb(0, 255, 34);
     transition: all 0.2s ease-in-out;
 }
 
-.item-title {
+.item-default-title {
+    transition: all 0.2s ease-in-out;
+    width: auto;
     padding-left: 10px;
 }
 
-.item:hover {
+.item-default:hover {
     box-shadow: 0px 5px 5px rgb(22, 37, 37);
     border-color: rgb(0, 0, 0);
     background-color: rgb(0, 255, 34);
 }
 
-.item:hover .item-icon {
+.item-default:hover .item-default-icon {
     background-color: black;
 }
 
-.item p {
+.item-default p {
     color: rgb(252, 252, 252);
     transition: all 0.2s ease-in-out;
 }
 
-.item:hover p {
+.item-default:hover p {
     color: black
 }
 
-.item:hover .check {
+.item-default:hover .check {
     color: rgb(0, 255, 34)
 }
 
-.item-icon .check {
+.item-default-icon .check {
     transition: all 0.2s ease-in-out;
     margin: 0 10px;
     align-self: center;

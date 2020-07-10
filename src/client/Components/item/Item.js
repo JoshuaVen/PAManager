@@ -1,6 +1,8 @@
 import React from 'react'
 import './Item.css'
-import { FaCheck, FaUnlink, FaPlay, FaInfo } from 'react-icons/fa'
+import './item-advance.css'
+import './item-default.css'
+import { FaCheck, FaUnlink, FaPlay, FaInfo, FaAngleRight } from 'react-icons/fa'
 
 class Item extends React.Component {
     constructor(props) {
@@ -14,7 +16,6 @@ class Item extends React.Component {
     }
 
 
-
     handleClick() {
         this.setState({
             isOpened: !this.state.isOpened
@@ -22,25 +23,41 @@ class Item extends React.Component {
     }
 
     render() {
-        return (
-            <div className={'item-default' + (this.state.isOpened ? ' advance' : '')} onClick={this.handleClick}>
-                <div className={'item-advance' + (this.state.isOpened ? '' : ' hide')}>
-                    <div className={'item-advance-icon' + (this.state.isOpened ? ' hide' : '')}>
-                        <FaUnlink className='advance-icon' />
-                    </div>
-                    <div className={'item-advance-icon' + (this.state.isOpened ? ' hide' : '')}>
-                        <FaPlay className='advance-icon' />
-                    </div>
-                    <div className={'item-advance-icon' + (this.state.isOpened ? ' hide' : '')}>
-                        <FaInfo className='advance-icon' />
-                    </div>
+        const genres = this.props.anime.genre.map((g, index) =>
+            <span className='genre-span' key={index}>{g.name}</span>
+        )
 
+        return (
+            <div className={'item' + (this.state.isOpened ? ' advance' : '')}>
+                <div className={'item-title' + (this.state.isOpened ? ' hide' : '')}>
+                    <span className='span-title'>{this.props.anime.title}</span>
                 </div>
-                <div className={'item-default-icon' + (this.state.isOpened ? ' hide' : '')}>
-                    <FaCheck className='check' />
+                <img className='item-image' src={'http://localhost:8080/' + this.props.anime.offline_img} alt='Anime Poster' />
+                <div className={'item-genre'}>
+                    {genres}
                 </div>
-                <div className={'item-default-title' + (this.state.isOpened ? ' hide' : '')}>
-                    <p>{this.props.animeTitle}</p>
+                <div className='item-default'>
+                    <div
+                        className='item-default-icon'
+                    >
+                        <FaCheck className={'check'} />
+                        <FaAngleRight className={'extend'} onClick={this.handleClick} />
+                    </div>
+                    <div className={'item-advance' + (this.state.isOpened ? '' : ' hide')}>
+                        <div className={'item-advance-icon' + (this.state.isOpened ? '' : ' hide')}>
+                            <FaUnlink className='advance-icon' />
+                        </div>
+                        <div className={'item-advance-icon' + (this.state.isOpened ? '' : ' hide')}>
+                            <FaPlay className='advance-icon' />
+                        </div>
+                        <div className={'item-advance-icon' + (this.state.isOpened ? '' : ' hide')}>
+                            <FaInfo className='advance-icon' />
+                        </div>
+
+                    </div>
+                    <div className={'item-default-premier' + (this.state.isOpened ? ' hide' : '')}>
+                        <span className='year-span'>Year Premiered: {this.props.anime.premier_year}</span>
+                    </div>
                 </div>
             </div>
         )

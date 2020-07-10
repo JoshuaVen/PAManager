@@ -5,6 +5,7 @@ import { SEARCH_RESULT_RECEIVED, SEARCH_ANIME } from '../Actions/types'
 import { searchResultReceived, searchResultErrored } from '../Actions/index'
 
 import linkingWatcher from './linking'
+import fetchingWatcher from './fetchDled'
 
 function querySearch(searchURL) {
     return axios(searchURL)
@@ -29,5 +30,5 @@ function* searchWatcher() {
 }
 
 export default function* rootSaga() {
-    yield all([searchWatcher(), linkingWatcher()])
+    yield all([searchWatcher(), linkingWatcher(), fetchingWatcher()])
 }

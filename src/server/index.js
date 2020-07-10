@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser')
+const path = require('path')
 const cors = require('cors')
 
 const corsOptions = {
@@ -16,11 +17,10 @@ mongoose.connect('mongodb://localhost/pamanager', {
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
 })
 
-
 // App setup
 app.use(cors(corsOptions))
 app.use(cookieParser());
-app.use('/assets', express.static('../Assets'))
+app.use('/Assets', express.static(path.join(__dirname, '../../Assets')))
 app.use(express.static('dist'));
 app.use(morgan('combined'));
 app.use('/api', router)

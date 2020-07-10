@@ -4,13 +4,11 @@ import {
     UNDO_FORM,
     CONNECT_TO_MAL,
     DISCONNECT_FROM_MAL,
-    FETCH_DLED_ANIME,
     SEARCH_ANIME,
     SEARCH_RESULT_RECEIVED,
     SEARCH_RESULT_ERRORED,
     ACTIVE_ITEM,
 } from './types'
-import axios from 'axios'
 
 export function activateItem(item) {
     return {
@@ -37,14 +35,6 @@ export function searchAnime(title) {
     return {
         type: SEARCH_ANIME,
         payload: title
-    }
-}
-
-export function fetchDownloadedAnime() {
-    const response = axios.get('http://localhost:8080/api/files/downloaded_list')
-    return {
-        type: FETCH_DLED_ANIME,
-        payload: response
     }
 }
 

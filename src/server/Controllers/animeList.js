@@ -1,12 +1,23 @@
 const DledAnime = require('../Models/dledAnime')
+const Anime = require('../Models/anime')
 const fs = require('fs')
 
 exports.showDownloaded = (req, res, next) => {
-    DledAnime.find({}, { '_id': false, '__v': false }, { sort: { title: 1 } }, (err, docs) => {
+    DledAnime.find({ 'isAssociated': false }, { '_id': false, '__v': false }, { sort: { title: 1 } }, (err, unAssociated) => {
         if (err) {
             res.status(500).json({ error: err })
         }
-        res.status(200).json({ docs })
+        Anime.find({}, {
+            'title': true,
+            'offline_img': true,
+            'premier_year': true,
+            'genre': true,
+        }, { sort: { title: 1 } }, (err, associatedDocs) => {
+            if (err) {
+                res.status(500).json({ error: err })
+            }
+            res.status(200).json({ unAssociated, associatedDocs })
+        })
     })
 }
 

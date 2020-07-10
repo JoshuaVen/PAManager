@@ -1,27 +1,26 @@
-import { ADD_ANIME, FETCH_DLED_ANIME, ACTIVE_ITEM } from 'Client/JS/Actions/types'
-import produce from 'immer'
+import * as fetch from 'Client/JS/Actions/downloaded'
+import { createReducer } from '@reduxjs/toolkit'
 
 const initialState = {
+    isFetching: false,
     currentActive: null,
-    dledAnime: []
+    dledAnime: {
+        associatedDocs: [],
+        unAssociated: []
+    },
+    errorMessage: ''
 }
 
-const list = produce((draft, action) => {
-    switch (action.type) {
-        case ADD_ANIME:
-            draft.dledAnime = [...state.dledAnime, action.payload]
-            break
-
-        case FETCH_DLED_ANIME:
-            const dledAnime = action.payload.data.docs.map(anime => anime)
-            draft.dledAnime = dledAnime
-            break
-
-        case ACTIVE_ITEM:
-            draft.currentActive = action.payload
-            break
-
+const listReducer = createReducer(initialState, {
+    [fetch.request]: (state) => { state.isFetching = true },
+    [fetch.success]: (state, action) => {
+        state.isFetching = false
+        state.dledAnime = action.payload.data
+    },
+    [fetch.failed]: (state, action) => {
+        state.isFetching = false
+        state.errorMessage = action.payload.error
     }
-}, initialState)
+})
 
-export default list
+export default listReducer

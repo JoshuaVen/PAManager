@@ -1,15 +1,30 @@
 import React from 'react';
+import pkce from 'pkce-challenge'
 import { connect } from 'react-redux'
 import { connectToMal, disconnectFromMal } from 'Client/JS/Actions/index'
 import './Header.css';
+import Axios from 'axios';
 
 class Header extends React.Component {
+
     changeConnectionToMal() {
-        if (this.props.isConnectedToMal) {
-            return this.props.disconnectFromMal()
-        } else {
-            return this.props.connectToMal()
-        }
+        const baseURL = 'https://myanimelist.net/v1/oauth2/authorize'
+        const responseType = '?response_type=code&'
+        const clientId = 'client_id=6e30f7d9a69d59b978e94825b9bc00db&'
+        const { code_verifier, code_challenge } = pkce(128)
+        const challenge = 'code_challenge=' + code_challenge + '&'
+        const state = 'state=REQUESTID1&'
+        const redirectURI = 'redirect_uri=http://localhost:3000/auth'
+        const URL = baseURL + responseType + clientId + challenge + state + redirectURI
+        localStorage.setItem('code_challenge', code_challenge)
+        localStorage.setItem('code_verifier', code_verifier)
+        // window.open(URL, "_blank")
+
+        // if (this.props.isConnectedToMal) {
+        //     return this.props.disconnectFromMal()
+        // } else {
+        //     return this.props.connectToMal()
+        // }
     }
 
     render() {
@@ -21,7 +36,7 @@ class Header extends React.Component {
                         <p className='page-description'>{this.props.pages[this.props.currentActive].description}</p>
                     </div>
                     <div className='right-top'>
-                        <p onClick={() => this.changeConnectionToMal()}>{this.props.isConnectedToMal ? 'Connected' : 'Disconnected'}</p>
+                        <p onClick={() => this.changeConnectionToMal()}>Connect to MAL</p>
                     </div>
                 </div>
                 <div className='bottom-section'>

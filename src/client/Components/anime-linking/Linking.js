@@ -8,7 +8,7 @@ import '../form/PopupForm.css'
 import Loading from 'Client/Assets/loading.svg'
 import AnimeCard from '../anime-card/Card'
 import { toggleLinking, initiateLinking, resetLinking } from 'Client/JS/Actions/linking';
-import { fetchDownloadedAnime } from 'Client/JS/Actions/index'
+import { request } from 'Client/JS/Actions/downloaded'
 
 class AnimeLinking extends React.Component {
     constructor(props) {
@@ -85,7 +85,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchDledAnime: () => dispatch(fetchDownloadedAnime()),
+        fetchDledAnime: () => dispatch(request()),
         initiateLinking: (linkingItem, referenceItem) => dispatch(initiateLinking(linkingItem, referenceItem)),
         toggleLinking: toggle => dispatch(toggleLinking(toggle)),
         resetLinking: () => dispatch(resetLinking())

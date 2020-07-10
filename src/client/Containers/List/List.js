@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { fetchDownloadedAnime } from 'Client/JS/Actions/index'
+import { request } from 'Client/JS/Actions/downloaded'
 
 import Item from 'Client/Components/item/Item'
 import ExpandableItem from 'Client/Components/expandable-item/ExpandableItem'
@@ -12,10 +12,13 @@ class List extends React.Component {
     render() {
         return (
             <div className='list'>
-                {this.props.dledAnime.map(
+                {this.props.dledAnime.associatedDocs.map(
                     (anime, index) =>
-                        anime.isAssociated ? <Item animeTitle={anime.title} key={index} /> :
-                            <ExpandableItem animeTitle={anime.title} key={index} index={index} />
+                        <Item anime={anime} key={index} />
+                )}
+                {this.props.dledAnime.unAssociated.map(
+                    (anime, index) =>
+                        <ExpandableItem anime={anime} key={index} index={index} />
                 )}
             </div>
         )
@@ -31,7 +34,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchDownloadedAnime: dispatch(fetchDownloadedAnime())
+        fetchDownloadedAnime: dispatch(request())
     }
 }
 

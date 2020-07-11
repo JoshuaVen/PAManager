@@ -1,4 +1,6 @@
 .grouped {
+    display: flexbox;
+    flex-direction: row;
     margin-top: 10px;
     margin-bottom: 5px;
     background-color: rgb(48, 48, 48);
@@ -7,9 +9,10 @@
 }
 
 .grouped .grouped-span {
-    position: relative;
+    align-self: center;
+    /* position: relative;
     top: 3px;
-    left: 2vw;
+    left: 2vw; */
     font-size: 15pt;
     color: rgb(0, 255, 0);
 }

@@ -1,7 +1,7 @@
 .item {
     height: 400px;
     width: 250px;
-    margin: 5px 10%;
+    margin: 5px 6px;
     display: flex;
     flex-direction: column;
     border-style: solid;

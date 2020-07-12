@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+import auth from './auth'
 import header from './header'
 import list from './list'
 import form from './form'
@@ -8,7 +10,8 @@ import link from './link'
 export default combineReducers({
     header,
     list,
-    form,
+    form: formReducer,
     searchList,
-    link
+    link,
+    auth
 })

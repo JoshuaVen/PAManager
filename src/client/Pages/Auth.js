@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import requireAuth from 'Client/Components/HOCs/requireAuth'
 
 class AuthPage extends React.Component {
     render() {
@@ -10,4 +12,4 @@ class AuthPage extends React.Component {
     }
 }
 
-export default AuthPage
+export default requireAuth(AuthPage)

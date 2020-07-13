@@ -6,7 +6,7 @@ import { searchResultReceived, searchResultErrored } from '../Actions/index'
 
 import linkingWatcher from './linking'
 import fetchingWatcher from './fetchDled'
-import signinWatcher from './signin'
+import * as signin from './signin'
 
 function querySearch(searchURL) {
     return axios(searchURL)
@@ -31,5 +31,9 @@ function* searchWatcher() {
 }
 
 export default function* rootSaga() {
-    yield all([searchWatcher(), linkingWatcher(), fetchingWatcher(), signinWatcher()])
+    yield all([searchWatcher(),
+    linkingWatcher(),
+    fetchingWatcher(),
+    signin.signinWatcher(), signin.timeoutWatcher()
+    ])
 }

@@ -53,7 +53,14 @@ function* timeoutHandler() {
     } finally {
         yield put(signin.reallow())
     }
+}
 
+function* signOut() {
+    yield call([localStorage, localStorage.clear], 'token')
+}
+
+export function* signOutWatcher() {
+    yield takeLatest(signin.signout, signOut)
 }
 
 export function* timeoutWatcher() {
@@ -64,4 +71,3 @@ export function* signinWatcher() {
     yield takeLatest(signin.request, signinHandler)
 }
 
-// export default signinWatcher

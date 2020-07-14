@@ -35,6 +35,14 @@ const authReducer = createReducer(initialState, {
     },
     [signin.updateTimeout]: (state) => {
         state.timeout = state.timeout - 1
+    },
+    [signin.signout]: state => {
+        state.initialized = false
+        state.token = null
+        state.attempts = 5
+        state.attemptExceeded = false
+        state.errorMessage = null
+        state.timeout = 0
     }
 })
 

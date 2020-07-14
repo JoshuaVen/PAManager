@@ -34,6 +34,6 @@ export default function* rootSaga() {
     yield all([searchWatcher(),
     linkingWatcher(),
     fetchingWatcher(),
-    signin.signinWatcher(), signin.timeoutWatcher()
+    signin.signinWatcher(), signin.timeoutWatcher(), signin.signOutWatcher()
     ])
 }

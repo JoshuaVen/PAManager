@@ -9,8 +9,15 @@ import './signin.css'
 class Signin extends React.Component {
 
     onSubmit = formProps => {
+        console.log('submitted')
         const { history } = this.props
         this.props.signinRequest({ formProps, history })
+    }
+
+    componentDidMount() {
+        if (this.props.signin.token) {
+            this.props.history.push('/auth')
+        }
     }
 
     componentDidUpdate() {

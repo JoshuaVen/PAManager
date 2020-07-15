@@ -4,12 +4,15 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import * as signin from 'Client/JS/Actions/signin'
 
+import { FaTimes } from 'react-icons/fa'
+import Loading2 from 'Client/Assets/loading2.svg'
+
 import './signin.css'
+import './signin-error.css'
 
 class Signin extends React.Component {
 
     onSubmit = formProps => {
-        console.log('submitted')
         const { history } = this.props
         this.props.signinRequest({ formProps, history })
     }
@@ -31,38 +34,59 @@ class Signin extends React.Component {
 
         const signinForm = (
             <form onSubmit={handleSubmit(this.onSubmit)}>
-                <fieldset>
-                    <label>Name</label>
+                <fieldset className='si-input-container'>
+                    <label className='si-label name'>
+                        <span className='si-span name'>Name</span>
+                    </label>
                     <Field
+                        className='si-input-box name'
                         name='name'
                         type='text'
                         component='input'
-                        autoComplete='none'
+                        autoComplete='off'
                     />
                 </fieldset>
-                <fieldset>
-                    <label>Password</label>
+                <fieldset className='si-input-container'>
+                    <label className='si-label pw'>
+                        <span className='si-span pw'>Password</span>
+                    </label>
                     <Field
+                        className='si-input-box pw'
                         name='password'
                         type='password'
                         component='input'
                         autoComplete='none'
                     />
                 </fieldset>
-                <button>Sign up!</button>
+                <div className='si-submit'>
+                    {this.props.signin.initialized ? (
+                        <Loading2 className='si-loading' />
+                    ) : (
+                            <button className='si-button'>Sign in</button>
+                        )}
+                </div>
             </form>
         )
 
         const showTimeoutTimer = (
             <div>
-                <p>
+                <p style={{ color: 'black' }}>
                     Sign-in on cooldown..
                 </p>
-                <p>{this.props.signin.timeout}</p>
+                <p style={{ color: 'black' }}>{this.props.signin.timeout}</p>
             </div>
         )
 
-
+        const signinError = (
+            <div className='box error'>
+                <div className='icon-container'>
+                    <FaTimes className='error' />
+                </div>
+                <div className='message-container'>
+                    <p>{this.props.signin.errorMessage}</p>
+                </div>
+            </div>
+        )
 
         return (
             <div className='login'>
@@ -73,8 +97,7 @@ class Signin extends React.Component {
                     <div className='signin-form-container'>
                         {this.props.signin.attemptExceeded ? showTimeoutTimer : signinForm}
                     </div>
-                    {this.props.signin.signinInitialized ? (<p>Signing in...</p>) : null}
-                    {this.props.signin.errorMessage ? (<p>{this.props.signin.errorMessage}</p>) : null}
+                    {this.props.signin.errorMessage ? (signinError) : null}
                 </div>
             </div>
         )

@@ -25,6 +25,7 @@ const authReducer = createReducer(initialState, {
     },
     [signin.deny]: (state) => {
         state.timeout = 20
+        state.errorMessage = null
         state.attemptExceeded = true
     },
     [signin.reallow]: (state) => {

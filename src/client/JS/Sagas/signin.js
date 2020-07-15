@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select, take } from 'redux-saga/effects'
+import { call, put, takeLatest, select, take, delay } from 'redux-saga/effects'
 import axios from 'axios'
 
 import * as signin from '../Actions/signin'
@@ -12,6 +12,7 @@ function fetchSigninResults(action) {
 
 function* signinResults(action) {
     const { error, response } = yield call(fetchSigninResults, action)
+    yield delay(1400)
     if (error) {
         yield put(signin.failed('Entered credentials do not match!'))
     } else {

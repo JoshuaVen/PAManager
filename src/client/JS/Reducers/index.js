@@ -7,11 +7,13 @@ import form from './form'
 import searchList from './searchlist'
 import link from './link'
 
-export default combineReducers({
-    header,
-    list,
-    form: formReducer,
-    searchList,
-    link,
+export const staticReducers = {
+    // header,
+    // list,
+    // form: formReducer,
+    // searchList,
+    // link,
     auth
-})
+}
+
+export default combineReducers(staticReducers)

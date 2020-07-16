@@ -4,7 +4,7 @@
   "description": "Boilerplate to build a full stack web application using React, Node.js, Express and Webpack.",
   "main": "src/server/index.js",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --profile --json > stats.json",
     "start": "npm run build && node src/server/index.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
@@ -48,11 +48,14 @@
     "enzyme-adapter-react-16": "^1.15.2",
     "express": "^4.16.3",
     "fs": "^0.0.1-security",
+    "hoist-non-react-statics": "^3.3.2",
     "ignore-styles": "^5.0.1",
     "immer": "^7.0.5",
+    "invariant": "^2.2.4",
     "js-cookie": "^2.2.1",
     "jsdom": "^16.2.2",
     "jwt-simple": "^0.5.6",
+    "lodash": "^4.17.19",
     "material-components-web": "^7.0.0",
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^8.0.1",
@@ -111,6 +114,7 @@
     "url": "^0.11.0",
     "url-loader": "^1.0.1",
     "webpack": "^4.43.0",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.3"
   }

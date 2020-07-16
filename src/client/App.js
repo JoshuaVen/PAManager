@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
+
+import loadable from 'Client/Utils/loadable'
+import Loading from 'Client/Components/loading-component/Loading'
+
 import './app.css';
 import Home from 'Client/Containers/Home'
-import Signin from 'Client/Pages/Signin/Signin'
-import Signout from 'Client/Pages/Signout/Signout'
+const Signin = loadable(
+    () => import(/* wepackPreload: true */'Client/Pages/Signin/Signin'),
+    { fallback: <Loading /> })
+const AuthPage = loadable(
+    () => import(/* webpackPrefetch: true*/'Client/Pages/Auth'),
+    { fallback: <Loading /> })
+const Signout = loadable(
+    () => import(/* webpackPrefetch: true*/'Client/Pages/Signout/Signout'),
+    { fallback: <Loading /> })
 import Header from 'Client/Containers/Header/Header'
-import AuthPage from 'Client/Pages/Auth'
 import Root from 'Client/JS/Root'
 
 class App extends Component {

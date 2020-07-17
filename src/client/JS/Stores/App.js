@@ -59,7 +59,8 @@ export default function configureStore() {
         rootReducer, composedEnhancers
     )
 
-    store.runSaga = sagaMiddleware.run(rootSaga)
+    store.injectedSagas = {}
+    store.runSaga = sagaMiddleware.run
     store.reducerManager = reducerManager
     return store
 }

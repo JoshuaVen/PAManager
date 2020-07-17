@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select, take, delay } from 'redux-saga/effects'
+import { call, put, takeLatest, select, take, delay, all } from 'redux-saga/effects'
 import axios from 'axios'
 
 import * as signin from '../Actions/signin'
@@ -60,15 +60,21 @@ function* signOut() {
     yield call([localStorage, localStorage.clear], 'token')
 }
 
-export function* signOutWatcher() {
+function* signOutWatcher() {
     yield takeLatest(signin.signout, signOut)
 }
 
-export function* timeoutWatcher() {
+function* timeoutWatcher() {
     yield takeLatest(signin.deny, timeoutHandler)
 }
 
-export function* signinWatcher() {
+function* signinWatcher() {
     yield takeLatest(signin.request, signinHandler)
+}
+
+export default function* signinSaga() {
+    yield all([
+        signinWatcher(), timeoutWatcher(), signOutWatcher()
+    ])
 }
 

@@ -3,7 +3,11 @@ import { reduxForm, Field, reducer as formReducer } from 'redux-form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import * as signin from 'Client/JS/Actions/signin'
+
 import injectReducer from 'Client/Utils/injectReducer'
+import injectSaga from 'Client/Utils/injectSaga'
+
+import signinSaga from 'Client/JS/Sagas/signin'
 
 import { FaTimes } from 'react-icons/fa'
 import Loading2 from 'Client/Assets/loading2.svg'
@@ -120,5 +124,6 @@ const mapDispatchToProps = dispatch => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     reduxForm({ form: 'signinForm' }),
-    injectReducer({ key: 'form', reducer: formReducer })
+    injectReducer({ key: 'form', reducer: formReducer }),
+    injectSaga({ key: 'signin', saga: signinSaga }),
 )(Signin)

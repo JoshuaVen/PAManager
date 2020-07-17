@@ -34,25 +34,27 @@ export default ({ key, reducer }) => WrappedComponent => {
 
         constructor(props, context) {
             super(props, context)
+
+            this.reducerManager = context.store.reducerManager
         }
 
         componentDidMount() {
-            let reducerManager = this.context.store.reducerManager
+            // let reducerManager = this.context.store.reducerManager
             if (
-                Reflect.has(reducerManager.getReducerMap(), key) &&
-                store.injectedReducers[key] === reducer
+                Reflect.has(this.reducerManager.getReducerMap(), key) &&
+                this.context.store.injectedReducers[key] === reducer
             ) {
                 return
             } else {
-                reducerManager.add(key, reducer)
-                this.context.store.replaceReducer(reducerManager.reduce)
+                this.reducerManager.add(key, reducer)
+                this.context.store.replaceReducer(this.reducerManager.reduce)
             }
         }
 
         componentWillUnmount() {
-            let reducerManager = this.context.store.reducerManager
-            reducerManager.remove(key)
-            this.context.store.replaceReducer(reducerManager.reduce)
+            // let reducerManager = this.context.store.reducerManager
+            this.reducerManager.remove(key)
+            this.context.store.replaceReducer(this.reducerManager.reduce)
         }
 
         render() {

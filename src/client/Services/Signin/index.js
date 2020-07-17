@@ -2,12 +2,12 @@ import React from 'react'
 import { reduxForm, Field, reducer as formReducer } from 'redux-form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import * as signin from 'Client/JS/Actions/signin'
+import * as signin from './actions'
 
 import injectReducer from 'Client/Utils/injectReducer'
 import injectSaga from 'Client/Utils/injectSaga'
 
-import signinSaga from 'Client/JS/Sagas/signin'
+import signinSaga from './saga'
 
 import { FaTimes } from 'react-icons/fa'
 import Loading2 from 'Client/Assets/loading2.svg'
@@ -111,7 +111,7 @@ class Signin extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        signin: state.auth
+        signin: state.authReducer
     }
 }
 

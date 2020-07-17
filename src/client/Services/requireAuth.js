@@ -1,4 +1,5 @@
 import React from 'react'
+import hoistNonReactStatics from 'hoist-non-react-statics'
 import { connect } from 'react-redux'
 
 export default ChildComponent => {
@@ -24,9 +25,9 @@ export default ChildComponent => {
 
     const mapStateToProps = state => {
         return {
-            auth: state.auth.token
+            auth: state.authReducer.token
         }
     }
 
-    return connect(mapStateToProps)(ComposedComponent)
+    return hoistNonReactStatics(connect(mapStateToProps)(ComposedComponent), ChildComponent)
 }

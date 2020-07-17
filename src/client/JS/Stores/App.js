@@ -1,12 +1,13 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import reduxPromise from 'redux-promise'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-import rootReducer, { staticReducers } from '../Reducers'
+// import rootReducer, { staticReducers } from '../Reducers'
+import { staticReducers } from 'Client/reducers'
 import rootSaga from '../Sagas'
 
 export function createReducerManager(initialReducers) {
+
     const reducers = { ...initialReducers }
     let combinedReducer = combineReducers(reducers)
     let keysToRemove = []
@@ -56,7 +57,7 @@ export default function configureStore() {
 
     const reducerManager = createReducerManager(staticReducers)
     const store = createStore(
-        rootReducer, composedEnhancers
+        reducerManager.reduce, composedEnhancers
     )
 
     store.injectedSagas = {}

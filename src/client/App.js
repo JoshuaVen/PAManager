@@ -5,15 +5,15 @@ import loadable from 'Client/Utils/loadable'
 import Loading from 'Client/Components/loading-component/Loading'
 
 import './app.css';
-import Home from 'Client/Containers/Home'
+// import Home from 'Client/Containers/Home'
 const Signin = loadable(
-    () => import(/* wepackPreload: true */'Client/Pages/Signin/Signin'),
+    () => import(/* wepackPrefetch: true */'Client/Services/Signin'),
     { fallback: <Loading /> })
 const AuthPage = loadable(
-    () => import(/* webpackPrefetch: true*/'Client/Pages/Auth'),
+    () => import(/* webpackPreload: true*/'Client/Pages/Auth'),
     { fallback: <Loading /> })
 const Signout = loadable(
-    () => import(/* webpackPrefetch: true*/'Client/Pages/Signout/Signout'),
+    () => import(/* webpackPrefetch: true*/'Client/Services/Signout'),
     { fallback: <Loading /> })
 import Header from 'Client/Containers/Header/Header'
 import Root from 'Client/JS/Root'

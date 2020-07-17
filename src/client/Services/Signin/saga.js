@@ -1,7 +1,7 @@
 import { call, put, takeLatest, select, take, delay, all } from 'redux-saga/effects'
 import axios from 'axios'
 
-import * as signin from '../Actions/signin'
+import * as signin from './actions'
 import { eventChannel, END } from 'redux-saga'
 
 function fetchSigninResults(action) {
@@ -23,8 +23,8 @@ function* signinResults(action) {
 }
 
 function* signinHandler(action) {
-    const { auth } = yield select()
-    if (auth.attempts > 0) {
+    const { authReducer } = yield select()
+    if (authReducer.attempts > 0) {
         yield signinResults(action)
     } else {
         yield put(signin.deny())
@@ -56,14 +56,6 @@ function* timeoutHandler() {
     }
 }
 
-function* signOut() {
-    yield call([localStorage, localStorage.clear], 'token')
-}
-
-function* signOutWatcher() {
-    yield takeLatest(signin.signout, signOut)
-}
-
 function* timeoutWatcher() {
     yield takeLatest(signin.deny, timeoutHandler)
 }
@@ -74,7 +66,7 @@ function* signinWatcher() {
 
 export default function* signinSaga() {
     yield all([
-        signinWatcher(), timeoutWatcher(), signOutWatcher()
+        signinWatcher(), timeoutWatcher()
     ])
 }
 

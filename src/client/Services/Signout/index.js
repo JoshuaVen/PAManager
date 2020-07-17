@@ -1,7 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 
-import { signout } from 'Client/JS/Actions/signin'
+import injectSaga from 'Client/Utils/injectSaga'
+
+import signoutSaga from './saga'
+import { signout } from './actions'
 import './signout.css'
 
 class Signout extends React.Component {
@@ -30,4 +34,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Signout)
+export default compose(
+    connect(null, mapDispatchToProps),
+    injectSaga({ key: 'signout', saga: signoutSaga })
+)(Signout)

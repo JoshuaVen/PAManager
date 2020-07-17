@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
-import auth from './auth'
+// import auth from './auth'
 import header from './header'
 import list from './list'
 import form from './form'
@@ -13,7 +13,7 @@ export const staticReducers = {
     // form: formReducer,
     // searchList,
     // link,
-    auth
+    // auth
 }
 
 export default combineReducers(staticReducers)

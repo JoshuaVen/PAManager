@@ -47,3 +47,43 @@ export const searchReducer = createReducer(searchInitialState, {
         state.errorMessage = action.payload
     }
 })
+
+
+const linkInitialState = {
+    isLinking: false,
+    referenceItem: '',
+    toBeLinked: {},
+    message: null,
+    linkingStarted: false,
+    linkingSuccess: false,
+}
+
+export const linkReducer = createReducer(linkInitialState, {
+    [downloaded.link_togg]: (state) => {
+        state.isLinking = !state.isLinking
+    },
+    [downloaded.link_init]: (state, action) => {
+        state.toBeLinked = action.payload.toBeLinked
+        state.referenceItem = action.payload.referenceItem
+        state.linkingStarted = true
+    },
+    [downloaded.link_succ]: (state, action) => {
+        state.linkingStarted = false
+        state.linkingSuccess = true
+        state.message = action.payload
+    },
+    [downloaded.link_fail]: (state, action) => {
+        state.isLinking = false
+        state.linkingStarted = false
+        state.linkingSuccess = false
+        state.message = action.payload
+    },
+    [downloaded.link_reset]: (state) => {
+        state.isLinking = false
+        state.referenceItem = ''
+        state.toBeLinked = {}
+        state.message = null
+        state.linkingStarted = false
+        state.linkingSuccess = false
+    }
+})

@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects'
+import { call, put, takeLatest, all } from 'redux-saga/effects'
 import axios from 'axios'
 
 import * as fetchDled from './actions'
@@ -32,4 +32,72 @@ function* fetchingWatcher() {
     yield takeLatest(fetchDled.request, fetchDledResults)
 }
 
-export default fetchingWatcher
+function animeSearch(searchURL) {
+    const config = {
+        method: 'get',
+        url: searchURL,
+        headers: {
+            authorization: localStorage.getItem('token')
+        }
+    }
+    return axios(config)
+        .then(response => ({ response }))
+        .catch(error => ({ error }))
+}
+
+function* fetchAnimeResult(search) {
+    const searchURL = 'http://localhost:8080/api/files/search?anime=' + search.payload
+    const { response, error } = yield call(animeSearch, searchURL)
+
+    if (response) {
+        yield put(fetchDled.search_rec(response))
+    } else {
+        yield put(fetchDled.search_err(error))
+    }
+}
+
+function* animeSearchWatcher() {
+    yield takeLatest(fetchDled.search_req, fetchAnimeResult)
+}
+
+function linkAttempt(item) {
+    const dataForPosting = {
+        ...item.linkingItem,
+        searchTitle: item.referenceItem
+    }
+    const linkingURL = 'http://localhost:8080/api/files/link'
+    const config = {
+        method: 'POST',
+        url: linkingURL,
+        data: dataForPosting,
+        headers: {
+            authorization: localStorage.getItem('token')
+        }
+    }
+    return axios(config)
+        .then(response => ({ response }))
+        .catch(error => ({ error }))
+}
+
+function* fetchLinkResults(action) {
+    const { response, error } = yield call(linkAttempt, action.payload)
+    if (response) {
+        yield put(fetchDled.link_succ(response))
+    } else {
+        yield put(fetchDled.link_fail(error))
+    }
+}
+
+function* linkingWatcher() {
+    yield takeLatest(fetchDled.link_init, fetchLinkResults)
+}
+
+export default function* saga() {
+    yield all([
+        fetchingWatcher(),
+        animeSearchWatcher(),
+        linkingWatcher()
+    ])
+}
+
+

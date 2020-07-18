@@ -12,6 +12,7 @@ import LoadingComp from 'Client/Components/loading-component/Loading'
 const List = loadable(() => import(/* webpackPreload: true */ 'Client/Containers/List'), {
     fallback: <LoadingComp />
 })
+import AnimeLinking from 'Client/Components/anime-linking'
 
 const pages = [
     { title: 'Anime', description: 'All anime displayed that are added by the user' },
@@ -26,11 +27,12 @@ class Home extends React.Component {
     render() {
         return (
             <div className='home'>
-                {/* {this.props.isLinking ? <AnimeLinking /> : null}
+                {/*
                 {this.props.isConnectedToMAL ? <SideNav /> : null}
 
                 {this.props.form.isPopped ? <PopupForm /> : null}
                  */}
+                {this.props.isLinking ? <AnimeLinking /> : null}
                 {this.props.home ? <Header pages={pages} currentActive={this.props.home.currentActive} /> : <div>loading...</div>}
                 <List />
             </div>
@@ -40,7 +42,8 @@ class Home extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        home: state.home
+        home: state.home,
+        isLinking: state.link ? state.link.isLinking : null
     }
 }
 

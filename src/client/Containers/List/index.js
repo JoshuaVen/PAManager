@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import injectReducer from 'Client/Utils/injectReducer'
 import injectSaga from 'Client/Utils/injectSaga'
 
-import listReducer, { searchReducer } from './reducers'
+import listReducer, { searchReducer, linkReducer } from './reducers'
 import * as actions from './actions'
 import listSaga from './saga'
 
@@ -96,6 +96,7 @@ const mapDispatchToProps = dispatch => {
 export default compose(
     injectReducer({ key: 'list', reducer: listReducer }),
     injectReducer({ key: 'search', reducer: searchReducer }),
+    injectReducer({ key: 'link', reducer: linkReducer }),
     injectSaga({ key: 'listSaga', saga: listSaga }),
     connect(mapStateToProps, mapDispatchToProps)
 )(List)

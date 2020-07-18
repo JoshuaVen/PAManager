@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { searchAnime } from 'Client/JS/Actions/index'
-import { toggleLinking } from 'Client/JS/Actions/linking'
+import { search_req, link_togg } from 'Client/Containers/List/actions'
 
 import { FaLink } from 'react-icons/fa'
 import './ExpandableItem.css'
@@ -34,8 +33,8 @@ class ExpandableItem extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleLinking: toggle => dispatch(toggleLinking(toggle)),
-        searchAnime: title => dispatch(searchAnime(title))
+        toggleLinking: toggle => dispatch(link_togg(toggle)),
+        searchAnime: title => dispatch(search_req(title))
     }
 }
 

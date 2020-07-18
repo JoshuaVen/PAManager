@@ -7,8 +7,7 @@ import './Linking.css'
 import '../form/PopupForm.css'
 import Loading from 'Client/Assets/loading.svg'
 import AnimeCard from '../anime-card/Card'
-import { toggleLinking, initiateLinking, resetLinking } from 'Client/JS/Actions/linking';
-import { request } from 'Client/JS/Actions/downloaded'
+import { link_togg, link_init, link_reset, request } from 'Client/Containers/List/actions'
 
 class AnimeLinking extends React.Component {
     constructor(props) {
@@ -52,15 +51,15 @@ class AnimeLinking extends React.Component {
     }
 
     render() {
-        const searchResults = this.props.searchRes.map(
+        const searchResults = this.props.searchRes ? this.props.searchRes.map(
             (res, index) =>
                 <AnimeCard key={index} anime={res} initiateLinking={this.handleLinking} />
-        )
+        ) : null
         return (
             <div className='popup'>
                 <div className='popup-inner'>
                     <div className='downloaded-anime'>
-                        <h1>{this.props.searchTitle}</h1>
+                        {this.props.search ? <h1>{this.props.searchTitle}</h1> : null}
                     </div>
                     {this.props.linkMessage ? this.displayAlert() : (
                         <div className='content'>
@@ -75,20 +74,20 @@ class AnimeLinking extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        linkSuccess: state.link.linkingSuccess,
-        linkMessage: state.link.message,
-        searchRes: state.searchList.searchRes,
-        isLoading: state.searchList.loading,
-        searchTitle: state.searchList.searchTitle
+        link: state.link,
+        searchRes: state.search ? state.search.searchRes : null,
+        linkMessage: state.link ? state.link.message : null,
+        isLoading: state.search ? state.search.loading : null,
+        searchTitle: state.search ? state.search.searchTitle : null
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchDledAnime: () => dispatch(request()),
-        initiateLinking: (linkingItem, referenceItem) => dispatch(initiateLinking(linkingItem, referenceItem)),
-        toggleLinking: toggle => dispatch(toggleLinking(toggle)),
-        resetLinking: () => dispatch(resetLinking())
+        initiateLinking: (linkingItem, referenceItem) => dispatch(link_init({ linkingItem, referenceItem })),
+        toggleLinking: toggle => dispatch(link_togg(toggle)),
+        resetLinking: () => dispatch(link_reset())
     }
 }
 

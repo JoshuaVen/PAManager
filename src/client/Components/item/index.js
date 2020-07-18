@@ -28,7 +28,7 @@ class Item extends React.Component {
         )
 
         return (
-            <div className={'item' + (this.state.isOpened ? ' advance' : '')}>
+            <div className={'item' + (this.state.isOpened ? ' advance' : '')} onClick={this.handleClick}>
                 <div className={'item-title' + (this.state.isOpened ? ' hide' : '')}>
                     <span className='span-title'>{this.props.anime.title}</span>
                 </div>
@@ -41,7 +41,7 @@ class Item extends React.Component {
                         className='item-default-icon'
                     >
                         <FaCheck className={'check'} />
-                        <FaAngleRight className={'extend'} onClick={this.handleClick} />
+                        <FaAngleRight className={'extend'} />
                     </div>
                     <div className={'item-advance' + (this.state.isOpened ? '' : ' hide')}>
                         <div className={'item-advance-icon' + (this.state.isOpened ? '' : ' hide')}>

@@ -9,7 +9,7 @@ import listReducer, { searchReducer, linkReducer } from './reducers'
 import * as actions from './actions'
 import listSaga from './saga'
 
-import Item from 'Client/Components/item/Item'
+import Item from 'Client/Components/item'
 import ExpandableItem from 'Client/Components/expandable-item'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import './List.css'

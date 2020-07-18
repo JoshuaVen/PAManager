@@ -9,10 +9,14 @@ import loadable from 'Client/Utils/loadable'
 import homeReducer from './reducer'
 import Header from 'Client/Components/header'
 import LoadingComp from 'Client/Components/loading-component/Loading'
-const List = loadable(() => import(/* webpackPreload: true */ 'Client/Containers/List'), {
-    fallback: <LoadingComp />
-})
-import AnimeLinking from 'Client/Components/anime-linking'
+const List = loadable(() => import(
+    /* webpackPreload: true */ 'Client/Containers/List'),
+    { fallback: <LoadingComp /> }
+)
+const AnimeLinking = loadable(() => import(
+    /* webpackPrefetch: true */'Client/Components/anime-linking'),
+    { fallback: <LoadingComp /> }
+)
 
 const pages = [
     { title: 'Anime', description: 'All anime displayed that are added by the user' },

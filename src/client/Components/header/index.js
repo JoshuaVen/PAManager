@@ -35,9 +35,6 @@ class Header extends React.Component {
                         <h1 className='page-title'>{this.props.pages[this.props.currentActive].title}</h1>
                         <p className='page-description'>{this.props.pages[this.props.currentActive].description}</p>
                     </div>
-                    <div className='right-top'>
-                        <p onClick={() => this.changeConnectionToMal()}>Connect to MAL</p>
-                    </div>
                 </div>
                 <div className='bottom-section'>
                     {this.props.pages.map(
@@ -57,19 +54,21 @@ class Header extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        pages: state.header.pages,
-        currentActive: state.header.currentActive,
-        isConnectedToMal: state.header.isConnectedToMAL
-    }
-}
+// const mapStateToProps = state => {
+//     return {
+//         pages: state.header.pages,
+//         currentActive: state.header.currentActive,
+//         isConnectedToMal: state.header.isConnectedToMAL
+//     }
+// }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        connectToMal: connect => dispatch(connectToMal(connect)),
-        disconnectFromMal: disconnect => dispatch(disconnectFromMal(disconnect))
-    }
-}
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         connectToMal: connect => dispatch(connectToMal(connect)),
+//         disconnectFromMal: disconnect => dispatch(disconnectFromMal(disconnect))
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+// export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+export default Header

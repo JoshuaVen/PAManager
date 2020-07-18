@@ -1,13 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 
-import { request } from 'Client/JS/Actions/downloaded'
+import injectReducer from 'Client/Utils/injectReducer'
+import injectSaga from 'Client/Utils/injectSaga'
+
+import listReducer, { searchReducer } from './reducers'
+import * as actions from './actions'
+import listSaga from './saga'
 
 import Item from 'Client/Components/item/Item'
-import ExpandableItem from 'Client/Components/expandable-item/ExpandableItem'
+import ExpandableItem from 'Client/Components/expandable-item'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import './List.css'
-import { element } from 'prop-types'
 
 class List extends React.Component {
     constructor(props) {
@@ -46,12 +51,14 @@ class List extends React.Component {
                         {this.state.isLinkedExpanded ? <FaChevronUp className='icon up' /> : <FaChevronDown className='icon down' />}
                     </div>
                 </div>
-                <div className={'list linked' + (this.state.isLinkedExpanded ? '' : ' collapse')}>
-                    {this.props.dledAnime.associatedDocs.map(
-                        (anime, index) =>
-                            <Item anime={anime} key={index} />
-                    )}
-                </div>
+                {this.props.list ? (
+                    <div className={'list linked' + (this.state.isLinkedExpanded ? '' : ' collapse')}>
+                        {this.props.list.dledAnime.associatedDocs.map(
+                            (anime, index) =>
+                                <Item anime={anime} key={index} />
+                        )}
+                    </div>
+                ) : null}
                 <div className='grouped'>
                     <span className='grouped-span'>Unlinked</span>
                     <div
@@ -61,12 +68,14 @@ class List extends React.Component {
                         {this.state.isNotLinkedExpanded ? <FaChevronUp className='icon up' /> : <FaChevronDown className='icon down' />}
                     </div>
                 </div>
-                <div className={'list notlinked' + (this.state.isNotLinkedExpanded ? '' : ' collapse')}>
-                    {this.props.dledAnime.unAssociated.map(
-                        (anime, index) =>
-                            <ExpandableItem anime={anime} key={index} index={index} />
-                    )}
-                </div>
+                {this.props.list ? (
+                    <div className={'list notlinked' + (this.state.isNotLinkedExpanded ? '' : ' collapse')}>
+                        {this.props.list.dledAnime.unAssociated.map(
+                            (anime, index) =>
+                                <ExpandableItem anime={anime} key={index} index={index} />
+                        )}
+                    </div>
+                ) : null}
             </div>
         )
     }
@@ -74,15 +83,19 @@ class List extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        dledAnime: state.list.dledAnime,
-        searchResult: state.searchList
+        list: state.list
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchDownloadedAnime: dispatch(request())
+        fetchDownloadedAnime: dispatch(actions.request())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default compose(
+    injectReducer({ key: 'list', reducer: listReducer }),
+    injectReducer({ key: 'search', reducer: searchReducer }),
+    injectSaga({ key: 'listSaga', saga: listSaga }),
+    connect(mapStateToProps, mapDispatchToProps)
+)(List)

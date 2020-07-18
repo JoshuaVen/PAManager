@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import requireAuth from 'Client/Services/requireAuth'
 
-class AuthPage extends React.Component {
+class MalConnector extends React.Component {
     render() {
         return (
             <div className='auth-body'>
@@ -12,4 +12,4 @@ class AuthPage extends React.Component {
     }
 }
 
-export default requireAuth(AuthPage)
+export default requireAuth(MalConnector)

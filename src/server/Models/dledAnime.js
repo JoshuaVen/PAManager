@@ -10,6 +10,9 @@ const dledAnimeSchema = new mongoose.Schema({
     },
     associated_mal_id: {
         type: Number
+    },
+    episodes: {
+        type: Array
     }
 }, { autoIndex: false })
 

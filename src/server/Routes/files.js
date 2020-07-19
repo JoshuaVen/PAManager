@@ -17,6 +17,8 @@ router.get('/search', jikan.searchDownloaded)
 
 router.get('/update', animeList.updateDB)
 
+router.get('/addEpisode', animeList.addEpisodes)
+
 router.get('/downloaded_list', animeList.showDownloaded)
 
 module.exports = router

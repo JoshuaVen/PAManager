@@ -2,9 +2,7 @@ import { applyMiddleware, createStore, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-// import rootReducer, { staticReducers } from '../Reducers'
 import { staticReducers } from 'Client/reducers'
-import rootSaga from '../Sagas'
 
 export function createReducerManager(initialReducers) {
 

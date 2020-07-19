@@ -12,9 +12,10 @@ const router = new Router();
 router.use(bodyParser.json());
 router.use(bodyParser.raw());
 
-
+const animes = require('./Routes/anime')
 const files = require('./Routes/files')
 
+router.use('/anime', requireAuth, animes)
 
 router.use('/files', requireAuth, files)
 

@@ -21,15 +21,28 @@ const Signout = loadable(
 const AnimePage = loadable(
     () => import(/* webpackPrefetch: true, webpackChunkName: 'Anime' */'Client/Containers/AnimePage'),
     { fallback: <Loading /> })
-import Header from 'Client/Containers/Header/Header'
+import { HeaderHook } from 'Client/Containers/Header/Header'
 import Root from './configureStore'
+
+const AppHook = () => {
+    return (
+        <Root>
+            <BrowserRouter>
+                <HeaderHook />
+                <div>
+                    Hello! This is a Hook!
+                </div>
+            </BrowserRouter>
+        </Root>
+    )
+}
 
 class App extends Component {
     render() {
         return (
             <Root>
                 <BrowserRouter>
-                    <Header />
+
                     <Route path='/' exact component={Home} />
                     <Route path='/anime' exact component={AnimePage} />
                     <Route path='/auth' exact component={MalConnectPage} />
@@ -41,4 +54,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default AppHook;

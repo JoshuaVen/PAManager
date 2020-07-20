@@ -4,7 +4,7 @@ import { applyMiddleware, createStore, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-import { staticReducers } from 'Client/reducers'
+import { staticReducers } from './reducers'
 
 export function createReducerManager(initialReducers) {
 

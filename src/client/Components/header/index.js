@@ -1,7 +1,5 @@
 import React from 'react';
 import pkce from 'pkce-challenge'
-import { connect } from 'react-redux'
-import { connectToMal, disconnectFromMal } from 'Client/JS/Actions/index'
 import './Header.css';
 import Axios from 'axios';
 

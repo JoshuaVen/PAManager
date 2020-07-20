@@ -1,3 +1,5 @@
+import React from 'react'
+import { Provider } from 'react-redux'
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -43,7 +45,7 @@ export function createReducerManager(initialReducers) {
     }
 }
 
-export default function configureStore() {
+function configureStore() {
     const reduxSagaMonitorOptions = {}
     const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions)
 
@@ -62,4 +64,12 @@ export default function configureStore() {
     store.runSaga = sagaMiddleware.run
     store.reducerManager = reducerManager
     return store
+}
+
+export default (props) => {
+    return (
+        <Provider store={configureStore()}>
+            {props.children}
+        </Provider>
+    )
 }

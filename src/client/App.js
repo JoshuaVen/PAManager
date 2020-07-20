@@ -22,7 +22,7 @@ const AnimePage = loadable(
     () => import(/* webpackPrefetch: true, webpackChunkName: 'Anime' */'Client/Containers/AnimePage'),
     { fallback: <Loading /> })
 import Header from 'Client/Containers/Header/Header'
-import Root from 'Client/JS/Root'
+import Root from './configureStore'
 
 class App extends Component {
     render() {

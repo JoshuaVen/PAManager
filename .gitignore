@@ -7,3 +7,4 @@ yarn.lock
 src/client/Fonts/Apache License.txt
 Assets
 stats.json
+*.otf

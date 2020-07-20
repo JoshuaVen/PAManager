@@ -26,7 +26,7 @@ module.exports = {
       use: ['style-loader', 'css-loader']
     },
     {
-      test: /\.(woff(2)?|ttf|eot|jpg)(\?v=\d+\.\d+\.\d+)?$/,
+      test: /\.(woff(2)?|ttf|otf|eot|jpg)(\?v=\d+\.\d+\.\d+)?$/,
       use: [
         {
           loader: 'file-loader',

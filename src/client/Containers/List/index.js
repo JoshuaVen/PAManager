@@ -26,6 +26,9 @@ class List extends React.Component {
         this.handleClickNotLinked = this.handleClickNotLinked.bind(this)
     }
 
+    componentDidMount() {
+        this.props.fetchDownloadedAnime()
+    }
 
     handleClickLinked() {
         this.setState({
@@ -55,7 +58,7 @@ class List extends React.Component {
                     <div className={'list linked' + (this.state.isLinkedExpanded ? '' : ' collapse')}>
                         {this.props.list.dledAnime.associatedDocs.map(
                             (anime, index) =>
-                                <Item anime={anime} key={index} />
+                                <Item anime={anime} key={index} history={this.props.history} />
                         )}
                     </div>
                 ) : null}
@@ -89,7 +92,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchDownloadedAnime: dispatch(actions.request())
+        fetchDownloadedAnime: () => dispatch(actions.request())
     }
 }
 

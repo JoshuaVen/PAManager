@@ -14,7 +14,11 @@ router.get('/', (req, res, next) => {
         Anime.findOne({ 'mal_id': mal_id }, (err, doc) => {
             if (err) { return res.send({ err }) }
             if (!doc) { return res.sendStatus(204) }
-            return res.send(doc)
+            let data = {
+                'offline_img': doc.offline_img,
+                ...doc.anime_details
+            }
+            return res.send(data)
         })
     else
         res.send('Anime data APIs entrypoint')

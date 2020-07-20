@@ -23,7 +23,6 @@ const saveImage = (url, loc) => {
 exports.searchDownloaded = (req, res, next) => {
     const address = req.url
     const query = url.parse(address, true).query.anime;
-
     mal.search('anime', query, { page: 1, limit: 10 })
         .then(response => res.send(response.results))
         .catch(err => res.status(400).json({ error: err }))
@@ -73,17 +72,8 @@ exports.linkToMal = (req, res, next) => {
             Anime.insertMany({
                 mal_id: response.mal_id,
                 title: response.title,
-                jap_title: response.title_japanese,
-                online_img: response.image_url,
                 offline_img: imageFile,
-                synopsis: response.synopsis,
-                premier_year: response['aired']['prop']['from']['year'],
-                episodes: response.episodes,
-                studio: response.studios,
-                related: response.related,
-                genre: response.genres,
-                opening: response.opening_themes,
-                closing: response.ending_themes
+                anime_details: response
             }).then(document => {
                 DledAnime.updateOne({ 'title': search_title },
                     { 'isAssociated': true, 'associated_mal_id': response.mal_id })

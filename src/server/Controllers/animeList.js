@@ -9,14 +9,25 @@ exports.showDownloaded = (req, res, next) => {
             res.status(500).json({ error: err })
         }
         Anime.find({}, {
+            'mal_id': true,
             'title': true,
             'offline_img': true,
-            'premier_year': true,
-            'genre': true,
-        }, { sort: { title: 1 } }, (err, associatedDocs) => {
+            'anime_details': true
+        }, { sort: { title: 1 } }, (err, docs) => {
             if (err) {
                 res.status(500).json({ error: err })
             }
+            let associatedDocs = []
+            docs.forEach(doc => {
+                let project = {
+                    'mal_id': doc.anime_details.mal_id,
+                    'title': doc.anime_details.title,
+                    'offline_img': doc.offline_img,
+                    'genre': doc.anime_details.genres,
+                    'premier_year': doc.anime_details.aired.prop.from.year
+                }
+                associatedDocs.push(project)
+            })
             res.status(200).json({ unAssociated, associatedDocs })
         })
     })
@@ -60,15 +71,6 @@ exports.updateDB = (req, res, next) => {
             }
         }
     )
-
-    fs.readdir(path.join(animeSource, dirs[101]), (err, files) => {
-        if (err) { return res.send({ err }) }
-        let arrFiles = []
-        files.forEach(file => {
-            arrFiles.push(file)
-        })
-        res.send(arrFiles)
-    })
 
     DledAnime.find({ 'title': dirs }, { '_id': false, '__v': false }, (err, response) => {
         if (err) {

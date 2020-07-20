@@ -50,7 +50,11 @@ class Item extends React.Component {
                         <div className={'item-advance-icon' + (this.state.isOpened ? '' : ' hide')}>
                             <FaPlay className='advance-icon' />
                         </div>
-                        <div className={'item-advance-icon' + (this.state.isOpened ? '' : ' hide')}>
+                        <div className={'item-advance-icon' + (this.state.isOpened ? '' : ' hide')}
+                            onClick={() => this.props.history.push(
+                                '/anime?mal_id=' + this.props.anime.mal_id
+                            )}
+                        >
                             <FaInfo className='advance-icon' />
                         </div>
 

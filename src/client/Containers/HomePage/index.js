@@ -38,7 +38,7 @@ class Home extends React.Component {
                  */}
                 {this.props.isLinking ? <AnimeLinking /> : null}
                 {this.props.home ? <Header pages={pages} currentActive={this.props.home.currentActive} /> : <div>loading...</div>}
-                <List />
+                <List history={this.props.history} />
             </div>
         )
     }

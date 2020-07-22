@@ -18,49 +18,60 @@ function checkParams(key, reducer) {
  * @param {function} reducer A reducer that will be injected
  *
  */
-// { key, reducer }
-export default ({ key, reducer }) => WrappedComponent => {
-
+export const useInjectReducer = ({ key, reducer }) => {
     checkParams(key, reducer)
-
-    class ReducerInjector extends React.Component {
-        static WrappedComponent = WrappedComponent;
-
-        static contextType = ReactReduxContext;
-
-        static displayName = `withReducer(${WrappedComponent.displayName ||
-            WrappedComponent.name ||
-            'Component'})`;
-
-        constructor(props, context) {
-            super(props, context)
-
-            this.reducerManager = context.store.reducerManager
+    const context = React.useContext(ReactReduxContext)
+    const reducerManager = context.store.reducerManager
+    React.useEffect(() => {
+        if (
+            Reflect.has(reducerManager.getReducerMap(), key) &&
+            context.store.injectedReducers[key] === reducer
+        ) {
+            return
+        } else {
+            reducerManager.add(key, reducer)
+            context.store.replaceReducer(reducerManager.reduce)
         }
-
-        componentDidMount() {
-            // let reducerManager = this.context.store.reducerManager
-            if (
-                Reflect.has(this.reducerManager.getReducerMap(), key) &&
-                this.context.store.injectedReducers[key] === reducer
-            ) {
-                return
-            } else {
-                this.reducerManager.add(key, reducer)
-                this.context.store.replaceReducer(this.reducerManager.reduce)
-            }
+        return () => {
+            reducerManager.remove(key)
+            context.store.replaceReducer(reducerManager.reduce)
         }
+    }, [])
+}
 
-        componentWillUnmount() {
-            // let reducerManager = this.context.store.reducerManager
-            this.reducerManager.remove(key)
-            this.context.store.replaceReducer(this.reducerManager.reduce)
-        }
 
-        render() {
-            return <WrappedComponent {...this.props} />;
-        }
-    }
-
-    return hoistNonReactStatics(ReducerInjector, WrappedComponent);
-};
+// export default ({ key, reducer }) => WrappedComponent => {
+//     checkParams(key, reducer)
+//     class ReducerInjector extends React.Component {
+//         static WrappedComponent = WrappedComponent;
+//         static contextType = ReactReduxContext;
+//         static displayName = `withReducer(${WrappedComponent.displayName ||
+//             WrappedComponent.name ||
+//             'Component'})`;
+//         constructor(props, context) {
+//             super(props, context)
+//             this.reducerManager = context.store.reducerManager
+//         }
+//         componentDidMount() {
+//             // let reducerManager = this.context.store.reducerManager
+//             if (
+//                 Reflect.has(this.reducerManager.getReducerMap(), key) &&
+//                 this.context.store.injectedReducers[key] === reducer
+//             ) {
+//                 return
+//             } else {
+//                 this.reducerManager.add(key, reducer)
+//                 this.context.store.replaceReducer(this.reducerManager.reduce)
+//             }
+//         }
+//         componentWillUnmount() {
+//             // let reducerManager = this.context.store.reducerManager
+//             this.reducerManager.remove(key)
+//             this.context.store.replaceReducer(this.reducerManager.reduce)
+//         }
+//         render() {
+//             return <WrappedComponent {...this.props} />;
+//         }
+//     }
+//     return hoistNonReactStatics(ReducerInjector, WrappedComponent);
+// };

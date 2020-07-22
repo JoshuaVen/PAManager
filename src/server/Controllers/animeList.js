@@ -3,6 +3,36 @@ const Anime = require('../Models/anime')
 const fs = require('fs')
 const path = require('path')
 
+exports.uploadList = (req, res, next) => {
+    const localList = req.body
+
+    // TODO: save the user's list to the database (downloaded animes)
+    DledAnime.find({}, (err, docs) => {
+        if (err) { return res.send({ err }) }
+
+        // if there are no current list content in the database,
+        // save it immediately
+        let toBeInserted = localList.map(anime => ({ title: anime }))
+        if (docs.length === 0) {
+            DledAnime.insertMany(toBeInserted, (err) => {
+                if (err) { return res.send({ err }) }
+
+                return res.send({ status: 'OK', inserts: toBeInserted.length })
+            })
+        } else {
+            // else, compare the two and save the new list items
+            const docsResult = docs.map(anime => anime.title)
+            let filterNew = localList.filter(anime => !docsResult.includes(anime))
+            filterNew = filterNew.map(newItem => ({ title: newItem }))
+            DledAnime.insertMany(filterNew, (err) => {
+                if (err) { return res.send({ err }) }
+
+                return res.send({ status: 'OK', inserts: filterNew.length })
+            })
+        }
+    })
+}
+
 exports.showDownloaded = (req, res, next) => {
     DledAnime.find({ 'isAssociated': false }, { '_id': false, '__v': false }, { sort: { title: 1 } }, (err, unAssociated) => {
         if (err) {

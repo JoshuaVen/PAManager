@@ -37,67 +37,50 @@ const checkDescriptor = descriptor => {
  *   - constants.ONCE_TILL_UNMOUNT — behaves like 'RESTART_ON_REMOUNT' but never runs it again.
  *
  */
-export default ({ key, saga, mode }) => WrappedComponent => {
-    class InjectSaga extends React.Component {
-        static WrappedComponent = WrappedComponent;
+export const useInjectSaga = ({ key, saga, mode }) => {
+    const context = React.useContext(ReactReduxContext)
 
-        static contextType = ReactReduxContext;
+    React.useEffect(() => {
+        checkStore(context.store)
+        const newDescriptor = {
+            saga: saga,
+            mode: mode || DAEMON
+        }
+        checkKey(key)
+        checkDescriptor(newDescriptor)
+        const hasSaga = Reflect.has(context.store.injectedSagas, key);
 
-        static displayName = `withSaga(${WrappedComponent.displayName ||
-            WrappedComponent.name ||
-            'Component'})`;
-
-        constructor(props, context) {
-            super(props, context);
-            checkStore(context.store)
-
-
-            this.newDescriptor = {
-                saga: saga,
-                mode: mode || DAEMON
-            }
-
-            checkKey(key)
-            checkDescriptor(this.newDescriptor)
-
-            let hasSaga = Reflect.has(context.store.injectedSagas, key);
-            if (process.env.NODE_ENV !== 'production') {
-                const oldDescriptor = this.context.store.injectedSagas[key];
-                // enable hot reloading of daemon and once-till-unmount sagas
-                if (hasSaga && oldDescriptor.saga !== saga) {
-                    oldDescriptor.task.cancel();
-                    hasSaga = false;
-                }
-            }
-            if (!hasSaga ||
-                (hasSaga && mode !== DAEMON && mode !== ONCE_TILL_UNMOUNT)) {
-                this.context.store.injectedSagas[key] = {
-                    ...this.newDescriptor,
-                    task: this.context.store.runSaga(saga, this.props)
-                };
+        if (process.env.NODE_ENV !== 'production') {
+            const oldDescriptor = context.store.injectedSagas[key];
+            // enable hot reloading of daemon and once-till-unmount sagas
+            if (hasSaga && oldDescriptor.saga !== saga) {
+                oldDescriptor.task.cancel();
+                hasSaga = false;
             }
         }
 
-        componentWillUnmount() {
+        if (!hasSaga ||
+            (hasSaga && mode !== DAEMON && mode !== ONCE_TILL_UNMOUNT)) {
+            context.store.injectedSagas[key] = {
+                ...newDescriptor,
+                task: context.store.runSaga(saga, { key, saga, mode })
+            };
+        }
+
+        return () => {
             checkKey(key)
 
-            if (Reflect.has(this.context.store.injectedSagas, key)) {
-                const descriptor = this.context.store.injectedSagas[key];
+            if (Reflect.has(context.store.injectedSagas, key)) {
+                const descriptor = context.store.injectedSagas[key];
                 if (descriptor.mode && descriptor.mode !== DAEMON) {
                     descriptor.task.cancel();
                     // Clean up in production; in development we need `descriptor.saga` for hot reloading
                     if (process.env.NODE_ENV === 'production') {
                         // Need some value to be able to detect `ONCE_TILL_UNMOUNT` sagas in `injectSaga`
-                        this.context.store.injectedSagas[key] = 'done'; // eslint-disable-line no-param-reassign
+                        context.store.injectedSagas[key] = 'done'; // eslint-disable-line no-param-reassign
                     }
                 }
             }
         }
-
-        render() {
-            return <WrappedComponent {...this.props} />;
-        }
-    }
-
-    return hoistNonReactStatics(InjectSaga, WrappedComponent);
-};
+    }, [])
+}

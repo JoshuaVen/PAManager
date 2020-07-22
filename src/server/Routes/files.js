@@ -13,6 +13,8 @@ router.post('/unlink', jikan.unlinkFromMal)
 
 router.post('/link', jikan.linkToMal)
 
+router.post('/uploadList', animeList.uploadList)
+
 router.get('/search', jikan.searchDownloaded)
 
 router.get('/update', animeList.updateDB)

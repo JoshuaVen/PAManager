@@ -13,7 +13,7 @@ const initialState = {
     timeout: 0
 }
 
-const authReducer = createReducer(initialState, {
+const auth = createReducer(initialState, {
     [signin.request]: (state) => { state.initialized = true },
     [signin.success]: (state, action) => {
         state.initialized = false
@@ -51,7 +51,7 @@ const authReducer = createReducer(initialState, {
 })
 
 export const staticReducers = {
-    authReducer
+    auth
 }
 
 // export default combineReducers(staticReducers)

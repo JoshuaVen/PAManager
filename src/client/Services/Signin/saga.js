@@ -23,8 +23,8 @@ function* signinResults(action) {
 }
 
 function* signinHandler(action) {
-    const { authReducer } = yield select()
-    if (authReducer.attempts > 0) {
+    const { auth } = yield select()
+    if (auth.attempts > 0) {
         yield signinResults(action)
     } else {
         yield put(signin.deny())

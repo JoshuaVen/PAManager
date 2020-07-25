@@ -21,11 +21,22 @@ const saveImage = (url, loc) => {
 }
 
 exports.searchDownloaded = (req, res, next) => {
-    const address = req.url
-    const query = url.parse(address, true).query.anime;
-    mal.search('anime', query, { page: 1, limit: 10 })
-        .then(response => res.send(response.results))
-        .catch(err => res.status(400).json({ error: err }))
+    const params = {
+        q: req.body.search,
+        limit: 10
+    };
+    axios.get('https://api.myanimelist.net/v2/anime', {
+        params: params,
+        headers: {
+            Authorization: `Bearer ${req.body.access_token}`
+        }
+    })
+        .then((response) => {
+            res.send({ data: response.data })
+        })
+        .catch((error) => {
+            res.status(error.response.status).json({ error })
+        })
 }
 
 exports.unlinkFromMal = (req, res, next) => {

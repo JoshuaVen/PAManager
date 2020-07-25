@@ -69,6 +69,7 @@
     "pkce-challenge": "^2.1.0",
     "postcss-loader": "^3.0.0",
     "prop-types": "^15.7.2",
+    "qs": "^6.9.4",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-icons": "^3.10.0",

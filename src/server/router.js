@@ -1,4 +1,5 @@
 const Authentication = require('./Controllers/Authentication')
+const mal = require('./Controllers/mal')
 const passportService = require('./Services/passport')
 const passport = require('passport')
 const bodyParser = require('body-parser');
@@ -22,6 +23,8 @@ router.use('/files', requireAuth, files)
 router.get('/', requireAuth, (req, res) => {
     res.send({ message: 'hello' })
 })
+
+router.get('/mal', requireAuth, mal.mal)
 
 router.post('/signin', requireSignin, Authentication.signin)
 

@@ -23,7 +23,8 @@ const saveImage = (url, loc) => {
 exports.searchDownloaded = (req, res, next) => {
     const params = {
         q: req.body.search,
-        limit: 10
+        limit: 10,
+        nsfw: true
     };
     axios.get('https://api.myanimelist.net/v2/anime', {
         params: params,
@@ -67,34 +68,39 @@ exports.unlinkFromMal = (req, res, next) => {
 
 exports.linkToMal = (req, res, next) => {
     const search_title = req.body.searchTitle
-    const mal_id = req.body.mal_id
+    const mal_id = req.body.id
 
-    mal.findAnime(mal_id)
-        .then(response => {
+    axios.get(`https://api.myanimelist.net/v2/anime/${mal_id}`, {
+        params: { fields: 'id,title,main_picture,alternative_titles,start_date,end_date,synopsis,nsfw,created_at,updated_at,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,pictures,background,related_anime,related_manga,recommendations,studios' },
+        headers: {
+            Authorization: `Bearer ${req.body.access_token}`
+        }
+    }).then((response) => {
+        const animeData = response.data;
+        let imageAsset = 'Assets/images/';
+        if (!fs.existsSync(imageAsset)) {
+            fs.mkdirSync(imageAsset)
+        }
 
-            let imageAsset = 'Assets/images/';
-            if (!fs.existsSync(imageAsset)) {
-                fs.mkdirSync(imageAsset)
-            }
+        let imageFile = imageAsset + animeData.id + '.jpg';
+        saveImage(animeData.main_picture.large, imageFile)
 
-            let imageFile = imageAsset + response.mal_id + '.jpg';
-            saveImage(response.image_url, imageFile)
-
-            Anime.insertMany({
-                mal_id: response.mal_id,
-                title: response.title,
-                offline_img: imageFile,
-                anime_details: response
-            }).then(document => {
-                DledAnime.updateOne({ 'title': search_title },
-                    { 'isAssociated': true, 'associated_mal_id': response.mal_id })
-                    .then(result => res.send(result))
-                    .catch(updateError => res.status(500).json({ error: updateError }))
-            })
-                .catch(insertError => {
-                    res.status(500).json({ error: insertError })
-                })
-
+        Anime.insertMany({
+            mal_id: animeData.id,
+            title: animeData.title,
+            offline_img: imageFile,
+            anime_details: animeData
+        }).then(document => {
+            DledAnime.updateOne({ 'title': search_title },
+                { 'isAssociated': true, 'associated_mal_id': animeData.id })
+                .then(result => res.send(result))
+                .catch(updateError => res.status(500).json({ error: updateError }))
         })
-        .catch(error => res.status(400).json({ error: error }))
+            .catch(insertError => {
+                res.status(500).json({ error: insertError })
+            })
+    })
+        .catch(error => {
+            res.status(400).json({ error: error })
+        })
 }

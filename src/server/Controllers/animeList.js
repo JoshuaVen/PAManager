@@ -50,11 +50,11 @@ exports.showDownloaded = (req, res, next) => {
             let associatedDocs = []
             docs.forEach(doc => {
                 let project = {
-                    'mal_id': doc.anime_details.mal_id,
-                    'title': doc.anime_details.title,
+                    'mal_id': doc.mal_id,
+                    'title': doc.title,
                     'offline_img': doc.offline_img,
                     'genre': doc.anime_details.genres,
-                    'premier_year': doc.anime_details.aired.prop.from.year
+                    'premier_year': doc.anime_details.start_season.year
                 }
                 associatedDocs.push(project)
             })
